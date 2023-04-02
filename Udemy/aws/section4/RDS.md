@@ -66,3 +66,37 @@ RDS에는 2가지 백업 방법이 존재한다.
 원본의 경우 original이 붙은 반면 복원된 데이터베이스는 restored가 붙는다.
 시험에 종종 언급된다고 하는데 넘어가겠다.
 
+***
+
+### RDS - Multi AZ, Read Replicas
+
+#### Multi AZ
+
++ Mutli Availablility Zone
++ 원래 존재하는 RDS DB에 무언가 변화가 생길때 다른 AZ에 똑같은 
+복제본이 만들어짐 = Synchronize
+  
++ AWS에 의해서 자동으로 관리가 이루어짐 (No admin intervention)
++ 원본 RDS DB에 문제가 생길 시 자동으로 다른 AZ의 복제본이 사용됨
++ #### ***Only For Disaster Recovery***
+    + 만약 성능이 개선이 목적이라면 Read Replica를 사용해야 한다.
+
+![img_1.png](img_1.png)
+어떤 EC2 인스턴스가 2A에 쓰기 작업을 실행한다면, 이는 2B에도 반영이 된다.  
+2A에 문제가 생긴다면 RDS는 자동으로 2B로 전환한다.
+
+#### Read Replica
+
++ Production DB의 읽기 전용 복제본이 생성됨
+    + 쓰기 목적도 가지는 Multi AZ와 다르게 읽기만 가능하다.
++ 주로 Read-Heavy DB 작업시 효율성의 극대화를 위해 사용됨
++ ***Disaster Recovery 용도가 아니다.***
++ 하나의 RDS에서 최대 5개의 Read Replica DB 허용
++ Read Replica의 Read Replica 생성 가능 (단, 약간의 딜레이 존재)
+
+![img_2.png](img_2.png)
+
+위 사진과 같이 EC2 인스턴스가 RDS에 읽기 요청을 많이 보낼때, 우리는
+RDS의 복제본 Read Replica에 각각의 인스턴스를 연결하여 성능향상을
+기대할 수 있다.
+
