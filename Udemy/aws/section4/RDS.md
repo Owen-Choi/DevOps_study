@@ -100,3 +100,43 @@ RDS에는 2가지 백업 방법이 존재한다.
 RDS의 복제본 Read Replica에 각각의 인스턴스를 연결하여 성능향상을
 기대할 수 있다.
 
+***
+
+### Elastic Cache
+
+Elastic Cache는 RDS와 관련된 기능은 아니지만, 함께 사용하면
+좋은 시너지를 기대할 수 있다.
+
++ 클라우드 내에서 In-memory 캐시를 만들어준다.
++ 즉 클라우드에 메모리를 상주시키고 캐시로 활용할 수 있게 해준다.
+
+Elastic Cache에는 2가지 타입이 있는데, Memcached와 Redis이다.
+
+#### Memcached
++ Object 캐시 시스템으로 알려져있다.
++ Elastic cache는 Memcached의 프로토콜을 디폴트로 따른다.
++ ***EC2 Auto Scailing 처럼 크기가 커졌다 작아졌다 한다.***
+    + 데이터 처리 사용량이 많으면 캐시를 늘려준다.
++ 오픈 소스
+
+***언제 Memcached를 사용해야 할까??***
+
++ 가장 단순한 캐싱 모델이 필요할때
++ Object caching이 주된 목적일때
++ 캐시 크기가 자동으로 scaling 되기를 원할때
+
+#### Redis
+
++ Object가 아닌, 조금 더 정교한 데이터를 저장한다.
+    + Key-Value, Set, List
+    
++ 오픈 소스
++ Multi AZ 지원
+    + 즉, Disaster Recovery 지원
+    
+***언제 Redis를 사용해야 할까??***
+
++ List, Set과 같은 데이터셋을 사용할 때
++ 리더보드처럼 데이터셋의 랭킹을 정렬해야 할 때
++ Multi AZ 기능이 필요할 때
+
